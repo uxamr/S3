@@ -134,14 +134,17 @@ class Zendesk(env, Redshift) :
         
         tabla['unread'].fillna('False', inplace = True)
         tabla = tabla.astype({'unread' : 'bool'})
-        
-        
-        print("Tickets extraidos (history)" ,len(tabla_h['id'].value_counts()))
-        print("Tickets extraidos (webpath)" ,len(tabla_wp['id'].value_counts()))
+            
+#        print("Tickets extraidos (history)" ,len(tabla_h['id'].value_counts()))
+#        print("Tickets extraidos (webpath)" ,len(tabla_wp['id'].value_counts()))
         
         tabla = fix_columns(tabla)
         tabla_h = fix_columns(tabla_h)
         tabla_wp = fix_columns(tabla_wp)
+        
+        tabla = tabla.astype({'response_time_avg' : 'float64'})
+        tabla = tabla.astype({'response_time_first' : 'float64'})
+        tabla = tabla.astype({'response_time_max' : 'float64'})
         
         self.history = tabla_h    
         self.webpath = tabla_wp

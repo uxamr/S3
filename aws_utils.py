@@ -26,7 +26,7 @@ class Copy_Redshift() :
         csv = pd.read_csv(name_csv)
         cols = csv.columns
         with engine.connect() as conn :
-            conn.execute("COPY {schema}.{table} ({cols}) FROM '{s3}' WITH CREDENTIALS 'aws_access_key_id={keyid};aws_secret_access_key={secretid}' CSV IGNOREHEADER 1;commit;".format(schema = os.environ["REDSHIFT_SCHEMA"], 
+            conn.execute("COPY {schema}.{table} ({cols}) FROM '{s3}' WITH CREDENTIALS 'aws_access_key_id={keyid};aws_secret_access_key={secretid}' CSV IGNOREHEADER 1 EMPTYASNULL;commit;".format(schema = os.environ["REDSHIFT_SCHEMA"], 
                                                                                                                                                                                                     table = name_table,
                                                                                                                                                                                                     cols = ', '.join(cols[j] for j in range( len(cols) ) ),
                                                                                                                                                                                                     s3='s3://{}/{}'.format(os.environ["S3_Bucket"],name_csv),
